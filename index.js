@@ -31,10 +31,21 @@ const getFoodLocations = async () => {
     };
   };
 
+
+// Third function to return food nutritional information (300ms delay)
+const getNutritionalInfo = async () => {
+    await delay(300);
+    return [
+      { name: 'Goan Fish Curry', calories: 250, protein: 20, fat: 10 },
+      { name: 'Chicken Xacuti', calories: 300, protein: 25, fat: 12 }
+    ];
+  };
+
+
 // Route to test second function
-app.get('/food-locations', async (req, res) => {
-    const locations = await getFoodLocations();
-    res.json(locations);
+app.get('/nutritional-info', async (req, res) => {
+    const nutrition  = await getNutritionalInfo();
+    res.json(nutrition);
   });
 
 

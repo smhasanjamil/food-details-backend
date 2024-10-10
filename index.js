@@ -22,12 +22,20 @@ const getFoodItems = async () => {
   ];
 };
 
-// Route to test first function
-app.get('/api/food-items', async (req, res) => {
-  const foodItems = await getFoodItems();
-  res.json(foodItems);
-});
 
+// Second function to return food locations (2 minute delay)
+const getFoodLocations = async () => {
+    await delay(2 * 60 * 1000); // 2 minutes
+    return {
+      availableLocations: ['Panaji', 'Margao', 'Vasco', 'Mapusa'],
+    };
+  };
+
+// Route to test second function
+app.get('/food-locations', async (req, res) => {
+    const locations = await getFoodLocations();
+    res.json(locations);
+  });
 
 
 

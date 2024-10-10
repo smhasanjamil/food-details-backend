@@ -42,10 +42,19 @@ const getNutritionalInfo = async () => {
   };
 
 
+// Fourth function to return stock-out foods (100ms delay)
+const getStockOutFoods = async () => {
+    await delay(100);
+    return {
+      stockOut: ['Pork Vindaloo'],
+    };
+  };
+
+
 // Route to test second function
-app.get('/nutritional-info', async (req, res) => {
-    const nutrition  = await getNutritionalInfo();
-    res.json(nutrition);
+app.get('/stock-out-foods', async (req, res) => {
+    const stockOut = await getStockOutFoods();
+    res.json(stockOut);
   });
 
 

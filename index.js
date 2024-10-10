@@ -53,6 +53,7 @@ const getStockOutFoods = async () => {
   };
 };
 
+// API route to get the merged food data
 app.get("/food-details", async (req, res) => {
   try {
     const [foodItems, foodLocations, nutritionalInfo, stockOutFoods] =

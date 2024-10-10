@@ -8,57 +8,73 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
-
 // Function to maintain a delay
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // First function to return food items (115ms delay)
 const getFoodItems = async () => {
   await delay(115);
   return [
-    { name: 'Goan Fish Curry', description: 'A spicy coconut-based curry with fish', price: 150 },
-    { name: 'Chicken Xacuti', description: 'A rich, flavorful chicken curry', price: 180 }
+    {
+      name: "Goan Fish Curry",
+      description: "A spicy coconut-based curry with fish",
+      price: 150,
+    },
+    {
+      name: "Chicken Xacuti",
+      description: "A rich, flavorful chicken curry",
+      price: 180,
+    },
   ];
 };
 
-
 // Second function to return food locations (2 minute delay)
 const getFoodLocations = async () => {
-    await delay(2 * 60 * 1000); // 2 minutes
-    return {
-      availableLocations: ['Panaji', 'Margao', 'Vasco', 'Mapusa'],
-    };
+  await delay(2 * 60 * 1000); // 2 minutes
+  return {
+    availableLocations: ["Panaji", "Margao", "Vasco", "Mapusa"],
   };
-
+};
 
 // Third function to return food nutritional information (300ms delay)
 const getNutritionalInfo = async () => {
-    await delay(300);
-    return [
-      { name: 'Goan Fish Curry', calories: 250, protein: 20, fat: 10 },
-      { name: 'Chicken Xacuti', calories: 300, protein: 25, fat: 12 }
-    ];
-  };
-
+  await delay(300);
+  return [
+    { name: "Goan Fish Curry", calories: 250, protein: 20, fat: 10 },
+    { name: "Chicken Xacuti", calories: 300, protein: 25, fat: 12 },
+  ];
+};
 
 // Fourth function to return stock-out foods (100ms delay)
 const getStockOutFoods = async () => {
-    await delay(100);
-    return {
-      stockOut: ['Pork Vindaloo'],
-    };
+  await delay(100);
+  return {
+    stockOut: ["Pork Vindaloo"],
   };
+};
 
+app.get("/food-details", async (req, res) => {
+  try {
+    const [foodItems, foodLocations, nutritionalInfo, stockOutFoods] =
+      await Promise.all([
+        getFoodItems(),
+        getFoodLocations(),
+        getNutritionalInfo(),
+        getStockOutFoods(),
+      ]);
 
-// Route to test second function
-app.get('/stock-out-foods', async (req, res) => {
-    const stockOut = await getStockOutFoods();
-    res.json(stockOut);
-  });
+    const foodDetails = {
+      foodItems,
+      foodLocations,
+      nutritionalInfo,
+      stockOutFoods,
+    };
 
-
-
+    res.json(foodDetails);
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong!" });
+  }
+});
 
 // Simple route for testing
 app.get("/", (req, res) => {
